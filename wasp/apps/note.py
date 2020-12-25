@@ -3,6 +3,23 @@ import wasp
 class NoteApp():
 
     NAME = 'NOTE'
+    notes = {
+        14: 8,
+        13: 10,
+        12: 35,
+        11: 40,
+        10: 47,
+        9: 50,
+        8: 55,
+        7: 60,
+        6: 67,
+        5: 70,
+        4: 72,
+        3: 74,
+        2: 75,
+        1: 77,
+        0: 80,
+    }
 
     def __init__(self):
         self._file_contents: bytes = None
@@ -35,24 +52,8 @@ class NoteApp():
             self._note()
 
     def _play(length, note):
-        notes = {
-            14: 8,
-            13: 10,
-            12: 30,
-            11: 45,
-            10: 47,
-            9: 50,
-            8: 55,
-            7: 60,
-            6: 67,
-            5: 70,
-            4: 72,
-            3: 74,
-            2: 75,
-            1: 77,
-            0: 80,
-        }
-        wasp.watch.vibrator.pulse(duty=notes[note], ms=length*10)
+        wasp.watch.vibrator.pulse(duty=NoteApp.notes[note], ms=length*10)
+        wasp.watch.vibrator.pulse(duty=100, ms=10)
 
     def _note(self):
         assert self._file_contents[0:4] == b'Note', "Not a note file!"
