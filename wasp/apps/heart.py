@@ -33,6 +33,7 @@ class HeartApp():
 
         self._hrdata = ppg.PPG(wasp.watch.hrs.read_hrs())
         self._x = 0
+        self._lastspl = 0
 
     def background(self):
         wasp.watch.hrs.disable()
@@ -60,12 +61,15 @@ class HeartApp():
         spl += 104
 
         x = self._x
-        draw.fill(0, x, 32, 1, 208-spl)
-        draw.fill(color, x, 239-spl, 1, spl)
+        lastspl = self._lastspl
+        draw.fill(0, x + 1, 29, 3, 240 - 29)
+        draw.line(x, 239 - lastspl, x + (2 if x <= 238 else 0), 239-spl, color=color)
         x += 2
         if x >= 240:
+            draw.fill(0, 0, 0, 1, 240 - 29)
             x = 0
         self._x = x
+        self._lastspl = spl
 
     def tick(self, ticks):
         """This is an outrageous hack but, at present, the RTC can only
